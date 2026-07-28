@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "KioskSettingsProfile",
+  "description": "Single source of truth for a kiosk settings profile's configJson shape. Backend zod validation (backend/src/routes/admin.profiles.routes.ts) and the Android DataStore profile mirror (android .../data/SettingsProfile.kt) must both match this shape.",
+  "type": "object",
+  "required": ["mode"],
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": ["web", "native_app"],
+      "description": "Whether the kiosk shows a locked WebView (web) or launches+pins another installed app (native_app)."
+    },
+    "url": { "type": "string", "description": "Home URL loaded in web mode." },
+    "urlWhitelist": { "type": "array", "items": { "type": "string" }, "description": "Glob/domain patterns allowed to navigate to; empty = allow all except blacklist." },
+    "urlBlacklist": { "type": "array", "items": { "type": "string" } },
+    "javascriptEnabled": { "type": "boolean", "default": true },
+    "popupsBlocked": { "type": "boolean", "default": true },
+    "zoomEnabled": { "type": "boolean", "default": false },
+    "autoplayEnabled": { "type": "boolean", "default": true },
+    "userAgent": { "type": ["string", "null"], "default": null },
+    "cookiesEnabled": { "type": "boolean", "default": true },
+    "nativeAppPackage": { "type": ["string", "null"], "description": "Required when mode = native_app." },
+    "sleepTime": { "type": ["string", "null"], "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$", "description": "24h HH:mm, screen locks via dpm.lockNow() at this time daily." },
+    "wakeTime": { "type": ["string", "null"], "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$" },
+    "idleTimeoutMinutes": { "type": ["integer", "null"], "minimum": 1, "description": "Minutes of no touch input before the screensaver overlay shows. null disables it." },
+    "screensaver": {
+      "type": ["object", "null"],
+      "properties": {
+        "type": { "type": "string", "enum": ["image", "clock", "url"] },
+        "imageUrl": { "type": "string" },
+        "url": { "type": "string" }
+      }
+    },
+    "motionDetectionMode": { "type": "string", "enum": ["off", "accelerometer", "camera"], "default": "accelerometer" },
+    "screenshotIntervalMinutes": { "type": ["integer", "null"], "minimum": 1, "description": "null disables periodic screenshots; on-demand REQUEST_SCREENSHOT command still works." },
+    "pinHash": { "type": ["string", "null"], "description": "Salted hash of the local exit/settings PIN. Set by the device on first PIN configuration, not by the admin." }
+  }
+}

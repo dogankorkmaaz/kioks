@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum CommandType {
+  RELOAD
+  LOCK
+  UNLOCK
+  REBOOT
+  RESTART_APP
+  REQUEST_SCREENSHOT
+  APPLY_PROFILE
+  SET_URL
+}
+
+enum CommandStatus {
+  PENDING
+  ACKED
+  FAILED
+}
+
+model AdminUser {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Group {
+  id               String          @id @default(uuid())
+  name             String          @unique
+  defaultProfileId String?
+  defaultProfile   SettingsProfile? @relation(fields: [defaultProfileId], references: [id])
+  devices          Device[]
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+}
+
+model SettingsProfile {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  configJson Json
+  version    Int      @default(1)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  groups          Group[]
+  devicesOverride Device[]
+}
+
+model Device {
+  id                      String    @id @default(uuid())
+  name                    String
+  deviceTokenHash         String?   @unique
+  enrollmentCode          String?   @unique
+  enrollmentCodeExpiresAt DateTime?
+  groupId          String?
+  group            Group?   @relation(fields: [groupId], references: [id])
+  profileId        String?
+  profile          SettingsProfile? @relation(fields: [profileId], references: [id])
+
+  lastSeenAt       DateTime?
+  batteryLevel     Int?
+  ipAddress        String?
+  currentUrlOrApp  String?
+  appVersion       String?
+  androidVersion   String?
+  model            String?
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  commands      Command[]
+  heartbeatLogs HeartbeatLog[]
+  screenshots   Screenshot[]
+}
+
+model Command {
+  id        String        @id @default(uuid())
+  deviceId  String
+  device    Device        @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  type      CommandType
+  payload   Json?
+  status    CommandStatus @default(PENDING)
+  result    Json?
+  createdAt DateTime      @default(now())
+  ackedAt   DateTime?
+
+  @@index([deviceId, status])
+}
+
+model HeartbeatLog {
+  id              String   @id @default(uuid())
+  deviceId        String
+  device          Device   @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  timestamp       DateTime @default(now())
+  batteryLevel    Int?
+  ipAddress       String?
+  currentUrlOrApp String?
+
+  @@index([deviceId, timestamp])
+}
+
+model Screenshot {
+  id         String   @id @default(uuid())
+  deviceId   String
+  device     Device   @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  filePath   String
+  capturedAt DateTime @default(now())
+
+  @@index([deviceId, capturedAt])
+}

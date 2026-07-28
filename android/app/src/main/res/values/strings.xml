@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KioskHub</string>
+    <string name="settings_title">Kiosk Settings</string>
+    <string name="pin_dialog_title">Enter PIN to exit kiosk mode</string>
+    <string name="pin_dialog_hint">PIN</string>
+    <string name="pin_dialog_error">Incorrect PIN</string>
+</resources>

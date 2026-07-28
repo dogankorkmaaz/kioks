@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_title"
+            android:textSize="20sp"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/urlInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Home URL"
+            android:inputType="textUri" />
+
+        <Switch
+            android:id="@+id/javascriptSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="JavaScript enabled" />
+
+        <Switch
+            android:id="@+id/zoomSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Zoom enabled" />
+
+        <Switch
+            android:id="@+id/popupsBlockedSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Block popups" />
+
+        <Switch
+            android:id="@+id/autoplaySwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Autoplay video" />
+
+        <Switch
+            android:id="@+id/cookiesSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cookies enabled" />
+
+        <EditText
+            android:id="@+id/whitelistInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Whitelist hosts, comma separated (e.g. *.example.com). Empty = allow all except blacklist" />
+
+        <EditText
+            android:id="@+id/blacklistInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Blacklist hosts, comma separated" />
+
+        <EditText
+            android:id="@+id/newPinInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="New exit PIN (leave empty to keep current)"
+            android:inputType="numberPassword" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Backend enrollment"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/serverUrlInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Server base URL (e.g. http://192.168.1.10:3000)"
+            android:inputType="textUri" />
+
+        <TextView
+            android:id="@+id/enrollmentStatusText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/enrollmentCodeInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="6-character enrollment code (from the dashboard\'s Get enrollment code button)"
+            android:inputType="textCapCharacters" />
+
+        <Button
+            android:id="@+id/enrollButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enroll" />
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/backToKioskButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back to kiosk" />
+
+    </LinearLayout>
+</ScrollView>

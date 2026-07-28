@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The backend runs on-prem as plain HTTP on the local network (see docs/API.md /
+  README architecture decisions — no reverse proxy/TLS is assumed for the LAN case),
+  and the server address is admin-configured per device to an arbitrary IP, so a
+  domain-scoped exception isn't practical. Cleartext is intentionally allowed here;
+  if the backend is later put behind HTTPS, this can be tightened to
+  cleartextTrafficPermitted="false".
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>
