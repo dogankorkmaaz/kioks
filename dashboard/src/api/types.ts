@@ -12,6 +12,8 @@ export interface Group {
   name: string;
   defaultProfileId: string | null;
   defaultProfile?: SettingsProfile | null;
+  /** Included by GET /api/admin/groups so the UI can show a member count. */
+  devices?: Device[];
 }
 
 export interface Device {
